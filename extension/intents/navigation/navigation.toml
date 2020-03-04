@@ -53,6 +53,9 @@ match = """
   (go |) back
 """
 
+[[navigation.goBack.example]]
+phrase = "Go back"
+
 [navigation.goForward]
 description = "Go forward to the next page, if one is available"
 match = """

@@ -205,6 +205,10 @@ phrase = "Next tab"
 expectParameters = {dir = "next"}
 
 [[tabs.switchDir.example]]
+phrase = "Go to right tab"
+expectParameters = {dir = "next"}
+
+[[tabs.switchDir.example]]
 phrase = "Tab left"
 expectParameters = {dir = "prev"}
 test = true
