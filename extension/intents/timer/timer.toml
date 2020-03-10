@@ -1,0 +1,25 @@
+
+[timer.start]
+description = "start timer"
+match = """
+  start timer (for me |)
+"""
+
+[[timer.start.example]]
+phrase = "start timer for me"
+
+[[timer.start.example]]
+phrase = "start timer"
+
+[timer.stop]
+description = "stop timer"
+match = """
+  stop timer (for me |)
+"""
+
+[[timer.stop.example]]
+phrase = "stop timer for me"
+
+[[timer.stop.example]]
+phrase = "stop timer"
+
