@@ -1,0 +1,4 @@
+[youtubemusic]
+type = "music"
+title = "YouTube Music"
+baseUrl = "https://music.youtube.com/"

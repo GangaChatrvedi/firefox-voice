@@ -69,7 +69,7 @@ phrase = "Pause music"
 phrase = "pause spotify"
 test = true
 expectParameters = {}
-expectSlots = {service = "spotify"}
+expectSlots = {service = "youtubemusic"}
 
 [[music.pause.example]]
 phrase = "stop"
@@ -109,7 +109,7 @@ phrase = "Play Green Day"
 phrase = "play query on spotify"
 test = true
 expectParameters = {}
-expectSlots = {service = "spotify", query = "query"}
+expectSlots = {service = "youtubemusic", query = "query"}
 
 [[music.play.example]]
 phrase = "play video query"
@@ -121,7 +121,7 @@ expectSlots = {query = "query"}
 phrase = "do a search on spotify for query"
 test = true
 expectParameters = {}
-expectSlots = {service = "spotify", query = "query"}
+expectSlots = {service = "youtubemusic", query = "query"}
 
 [music.unpause]
 description = "Unpause one service, the current tab, or the detected service"
@@ -141,7 +141,7 @@ phrase = "continue music"
 phrase = "play music"
 
 [[music.unpause.example]]
-phrase = "play spotify"
+phrase = "play"
 test = true
 
 [music.showTitle]

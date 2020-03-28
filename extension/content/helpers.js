@@ -64,6 +64,36 @@ this.helpers = (function() {
         }, interval);
       });
     }
+
+    waitForEvaluator(selector, options) {
+      const interval = (options && options.interval) || 50;
+      const timeout = (options && options.timeout) || 1000;
+      const minCount = (options && options.minCount) || 1;
+      return new Promise((resolve, reject) => {
+        const start = Date.now();
+        const id = setInterval(() => {
+          const result = document.evaluate(
+            selector,
+            document,
+            null,
+            XPathResult.FIRST_ORDERED_NODE_TYPE,
+            null
+          ).singleNodeValue;
+          if (result) {
+            clearTimeout(id);
+            resolve(result);
+            return;
+          }
+          if (Date.now() > start + timeout) {
+            const e = new Error(`Timeout waiting for ${selector}`);
+            e.name = "TimeoutError";
+            clearTimeout(id);
+            reject(e);
+          }
+        }, interval);
+      });
+    }
+
   };
 
   exports.Runner.register = function() {

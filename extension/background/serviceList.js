@@ -27,9 +27,10 @@ const MUSIC_SERVICE_ALIASES = {
   soundcloud: "soundcloud",
   deezer: "deezer",
   video: "youtube",
+  youtubemusic: "youtubemusic",
 };
 
-const DEFAULT_MUSIC_SERVICE = "spotify";
+const DEFAULT_MUSIC_SERVICE = "youtubemusic";
 
 // Note these are maintained separately from the services in extension/services/*, because
 // those are all loaded too late to be used here
@@ -38,6 +39,7 @@ export function musicServiceNames() {
 }
 
 export function mapMusicServiceName(utterance) {
+  console.log(utterance);
   return MUSIC_SERVICE_ALIASES[utterance.toLowerCase()];
 }
 

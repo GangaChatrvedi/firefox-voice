@@ -139,7 +139,9 @@ export class IntentContext {
   }
 
   async createTab(options) {
-    return browserUtil.createTab(options);
+    const tab = browserUtil.createTab(options);
+    await browserUtil.loadUrl(tab.id, options.url);
+    return tab;
   }
 
   async openOrFocusTab(url) {
