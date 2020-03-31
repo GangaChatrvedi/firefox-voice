@@ -1,6 +1,7 @@
 /* globals helpers */
 
 this.player = (function() {
+  const SEARCH = "/html/body/ytmusic-app/ytmusic-app-layout/div[3]/ytmusic-search-page/ytmusic-section-list-renderer/div[2]/ytmusic-shelf-renderer[1]/div[1]/ytmusic-responsive-list-item-renderer/div[2]/div[3]/yt-formatted-string[1]";
 
   class Player extends helpers.Runner {
     async sleep(ms) {
@@ -14,7 +15,6 @@ this.player = (function() {
           timeout: 5000,
         }
       );
-      console.log(searchButton.innerHTML);
       searchButton.click();
 
       const input = await this.waitForSelector(
@@ -27,7 +27,7 @@ this.player = (function() {
       this.setReactInputValue(input, query);
       input.value = query;
 
-      var event = document.createEvent("KeyboardEvent"); // create a key event
+      let event = document.createEvent("KeyboardEvent"); // create a key event
       // define the event
       event.initKeyEvent(
         "keypress",
@@ -43,35 +43,56 @@ this.player = (function() {
       );
 
       input.dispatchEvent(event);
-      await this.sleep(5000);
       if (thenPlay) {
-        console.log("yes");
         try {
-          let path =
-            "/html/body/ytmusic-app/ytmusic-app-layout/div[3]/ytmusic-search-page/ytmusic-section-list-renderer/div[2]/ytmusic-shelf-renderer[1]/div[1]/ytmusic-responsive-list-item-renderer/div[1]/ytmusic-item-thumbnail-overlay-renderer/div/ytmusic-play-button-renderer/div/yt-icon";
-
-          // path = "/html/body/ytmusic-app/ytmusic-app-layout/div[3]/ytmusic-browse-response/ytmusic-section-list-renderer/div[2]/ytmusic-carousel-shelf-renderer[1]/ytmusic-carousel/div/ul/ytmusic-two-row-item-renderer[1]/a/ytmusic-item-thumbnail-overlay-renderer/div/ytmusic-play-button-renderer/div/yt-icon";
-
-          await this.sleep(2000);
-
-          const playerButton = document.evaluate(
-            path,
-            document,
-            null,
-            XPathResult.FIRST_ORDERED_NODE_TYPE,
-            null
-          ).singleNodeValue;
-          playerButton.click();
+          let path;
+          let channel = null;
+           channel = await this.waitForEvaluator(
+            SEARCH,
+            {
+              timeout : 10000
+            }
+          );   
+          console.log(channel.innerText);
+          if(channel){
+            if(channel.innerText != "Artist"){
+              path =
+             "/html/body/ytmusic-app/ytmusic-app-layout/div[3]/ytmusic-search-page/ytmusic-section-list-renderer/div[2]/ytmusic-shelf-renderer[1]/div[1]/ytmusic-responsive-list-item-renderer/div[1]/ytmusic-item-thumbnail-overlay-renderer/div/ytmusic-play-button-renderer/div/yt-icon";
+            
+           }else{ 
+             let channelPath = "/html/body/ytmusic-app/ytmusic-app-layout/div[3]/ytmusic-search-page/ytmusic-section-list-renderer/div[2]/ytmusic-shelf-renderer[1]/div[1]/ytmusic-responsive-list-item-renderer/a";
+             const channelPage = await this.waitForEvaluator(
+               channelPath,
+               {
+                 timeout : 5000
+               }
+             );            
+             
+             channelPage.click();
+ 
+              path =
+               "/html/body/ytmusic-app/ytmusic-app-layout/div[3]/ytmusic-browse-response/ytmusic-section-list-renderer/div[2]/ytmusic-shelf-renderer/div[1]/ytmusic-responsive-list-item-renderer[1]/div[1]/ytmusic-item-thumbnail-overlay-renderer/div/ytmusic-play-button-renderer/div/yt-icon";
+           }
+           const playerButton = await this.waitForEvaluator(
+             path,
+             {
+               timeout : 5000
+             }
+           );
+           playerButton.click();
+          }else{
+            console.log("no channel")
+          }   
+         
         } catch (e) {
           let path =
             "/html/body/ytmusic-app/ytmusic-app-layout/div[3]/ytmusic-search-page/ytmusic-section-list-renderer/div[2]/ytmusic-item-section-renderer/div[2]/ytmusic-message-renderer/yt-formatted-string[1]";
-          const notFound = document.evaluate(
-            path,
-            document,
-            null,
-            XPathResult.FIRST_ORDERED_NODE_TYPE,
-            null
-          ).singleNodeValue;
+            const notFound = await this.waitForEvaluator(
+              path,
+              {
+                timeout : 5000
+              }
+            );  
 
           if (notFound) {
             if (notFound.innerText.includes("No results found")) {
