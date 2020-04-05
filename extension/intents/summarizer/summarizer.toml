@@ -1,0 +1,9 @@
+[summarizer.summarize]
+description = "summarizes the text on the page"
+match = """
+  summarize
+"""
+
+[[summarizer.summarize.example]]
+phrase = "summarize"
+test = "true"
